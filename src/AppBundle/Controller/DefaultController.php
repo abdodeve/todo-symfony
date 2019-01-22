@@ -20,11 +20,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/adev", name="adevPage")
+     * @Route("/fetch", name="fetchTodos")
      */
-    public function adevAction(Request $request)
+    public function fetchAction(Request $request)
     {
         return $this->json(array('username' => 'jane.doe'));
-
     }
 }
