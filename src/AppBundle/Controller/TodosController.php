@@ -5,7 +5,12 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
+
+use AppBundle\Entity\Todo ;
 
 class TodosController extends Controller
 {
@@ -17,7 +22,7 @@ class TodosController extends Controller
         $todos = $this->getDoctrine()
         ->getRepository('AppBundle:Todo')
         ->findAll();
-        
+
         $newTodos = [] ;
         foreach( $todos as $todo ) {
             $newTodos[] = [
@@ -33,28 +38,26 @@ class TodosController extends Controller
 
     /**
      * @Route("todos/insert", name="insertTodos")
+     * @Method("POST")
      */
     public function insertAction(Request $request)
     {
-        // $todo = new \AppBundle\Entity\Todo();
-        
-        // $todo->setTitle($form['name']->getData());
-        // $todo->setDescription($form['category']->getData());
+         // get data from request
+        $data = json_decode($request->getContent());
 
-        // $em = $this->getDoctrine()->getManager();
-        // $em->persist($todo);
-        // $em->flush();
-        
-        // $this->addFlash('notice', 'Todo Added');
-        
-        // return $this->redirectToRoute('todo_list');
+        // Add new record
+        $todo = new \AppBundle\Entity\Todo();
+        $todo->setTitle($data->title);
+        $todo->setDescription($data->description);
 
-        $content = $request->getContent();
-        // var_dump($content);
-        $tmp = $request->request->get('title');
-        var_dump($tmp);
-        die();
+        // Save to database
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($todo);
+        $em->flush();
 
+        return $this->json([ 'success' => true,
+                             'inserted_todo' => $todo->getId()
+                           ]);
     }
 
 }
