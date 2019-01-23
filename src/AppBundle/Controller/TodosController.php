@@ -14,7 +14,7 @@ use AppBundle\Entity\Todo ;
 class TodosController extends Controller
 {
     /**
-     * @Route("todos/fetch", name="fetchTodos")
+     * @Route("todo/fetch", name="fetchTodo")
      */
     public function fetchAction(Request $request)
     {
@@ -36,7 +36,7 @@ class TodosController extends Controller
 
 
     /**
-     * @Route("todos/insert", name="insertTodo")
+     * @Route("todo/insert", name="insertTodo")
      * @Method("POST")
      */
     public function insertAction(Request $request)
@@ -62,7 +62,7 @@ class TodosController extends Controller
     }
 
     /**
-     * @Route("todos/update/{id}", name="updateTodo")
+     * @Route("todo/update/{id}", name="updateTodo")
      * @Method("POST")
      */
     public function updateAction(Request $request, $id)
@@ -93,7 +93,7 @@ class TodosController extends Controller
 
 
     /**
-     * @Route("todos/single/{id}", name="singleTodo")
+     * @Route("todo/single/{id}", name="singleTodo")
      * @Method("POST")
      */
     public function singleAction(Request $request, $id)
@@ -120,7 +120,7 @@ class TodosController extends Controller
     }
 
     /**
-     * @Route("todos/delete/{id}", name="insertTodos")
+     * @Route("todo/delete/{id}", name="deleteTodo")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
@@ -146,6 +146,15 @@ class TodosController extends Controller
         return $this->json([ 'success' => true,
             'delete_todo' => $todo_id
         ]);
+    }
+
+
+    /**
+     * testAdev Controller
+     */
+    public function testAdevAction(Request $request, $id)
+    {
+        return $this->json([ 'success' => true]);
     }
 
 }
