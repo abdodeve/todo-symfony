@@ -152,7 +152,11 @@ class TodosController extends Controller
     /**
      * testAdev Controller
      */
-    public function testAdevAction(Request $request, $id)
+    /**
+     * @Route("testAdev1", name="testAdev1Todo")
+     * @Method("POST")
+     */
+    public function testAdevAction(Request $request)
     {
         return $this->json([ 'success' => true]);
     }
