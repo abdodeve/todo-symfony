@@ -36,6 +36,12 @@ class Todo
     private $description;
 
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="fk_todolist", type="int")
+     */
+    private $fk_todolist;
 
 
     /**
@@ -92,6 +98,28 @@ class Todo
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set fk_todolist
+     *
+     * @param string $fk_todolist
+     *
+     * @return Todo
+     */
+    public function setFkTodolist($fk_todolist)
+    {
+        $this->fk_todolist = $fk_todolist;
+        return $this;
+    }
+    /**
+     * Get fk_todolist
+     *
+     * @return string
+     */
+    public function getFkTodolist()
+    {
+        return $this->fk_todolist;
     }
 }
 

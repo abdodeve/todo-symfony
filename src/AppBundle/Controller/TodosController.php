@@ -148,10 +148,6 @@ class TodosController extends Controller
         ]);
     }
 
-
-    /**
-     * testAdev Controller
-     */
     /**
      * @Route("testAdev1", name="testAdev1Todo")
      * @Method("POST")
