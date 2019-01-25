@@ -39,7 +39,7 @@ class Todo
     /**
      * @var int
      *
-     * @ORM\Column(name="fk_todolist", type="int")
+     * @ORM\Column(name="fk_todolist", type="integer")
      */
     private $fk_todolist;
 
@@ -115,7 +115,7 @@ class Todo
     /**
      * Get fk_todolist
      *
-     * @return string
+     * @return int
      */
     public function getFkTodolist()
     {
