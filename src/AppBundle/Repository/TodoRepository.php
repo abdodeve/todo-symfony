@@ -9,25 +9,9 @@ namespace AppBundle\Repository;
 class TodoRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    /**
-     * Get all Todo Lists
-     *
-     * @return array
-     */
-    public function fetch()
+    public function fetch2()
     {
-        
-        $todos  =  $this->createQueryBuilder('todo')
-                        ->select('todo')
-                        ->leftJoin(
-                                    'AppBundle:TodoList', 
-                                    'todoList', 'WITH', 
-                                    'todo.fk_todolist = todoList.id'
-                                 )
-                        ->getQuery()
-                        ->getResult() ;
-        return $todos ;
+        return 'works' ;
     }
-
 
 }

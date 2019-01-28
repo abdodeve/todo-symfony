@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Query ;
 
 use AppBundle\Entity\Todo ;
+use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
 
 class TodosController extends Controller
@@ -159,25 +160,26 @@ class TodosController extends Controller
         $todoArr = [] ;
         $todoRepository = $this->getDoctrine()
                                ->getManager()
-                               ->getRepository('AppBundle:Todo');
+                               ->getRepository('AppBundle:TodoList');
         $todos = $todoRepository->fetch();
 
+        return $this->json($todos);
         /**
          * Loop for Get All Todos
          */
-        foreach ($todos as $todo):
-            $todoArr[] = [
-                'id'=> $todo->getId(),
-                'title'=> $todo->getTitle(),
-                'description'=> $todo->getDescription()
-            ];
-        endforeach ;
+        // foreach ($todos as $todo):
+        //     $todoArr[] = [
+        //         'id'=> $todo->getId(),
+        //         'title'=> $todo->getTitle(),
+        //         'description'=> $todo->getDescription()
+        //     ];
+        // endforeach ;
 
 
-        return $this->json([ 
-                             'success' => true,
-                             'all_todo' => $todoArr
-                          ]);
+        // return $this->json([ 
+        //                      'success' => true,
+        //                      'all_todo' => $todoArr
+        //                   ]);
     }
 
 
