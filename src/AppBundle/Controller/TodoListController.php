@@ -32,5 +32,23 @@ class TodoListController extends Controller
         return $this->json($todos);
     }
 
+    /**
+     * @Route("TodoList/delete", name="TodoListDelete")
+     * @Method("POST")
+     */
+    public function delete(Request $request)
+    {
+        // get data from request
+        $data = json_decode($request->getContent());
+
+        $todoArr = [] ;
+        $todoRepository = $this->getDoctrine()
+                               ->getManager()
+                               ->getRepository('AppBundle:TodoList');
+        $todos = $todoRepository->delete( $data->ids );
+
+        return $this->json($todos);
+    }
+
 
 }
