@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/">Todos</a>
+            </li>
+            <li class="breadcrumb-item active">All</li>
+          </ol>
+
+          <!-- Page Content -->
+          <h1>Todos</h1>
+          <hr>
+          <table class="table table-striped">
+            <tbody>
+                <tr>
+                <td><input type="text" class="form-control" id="title" placeholder="Entrer titre"></td>
+                <td><input type="text" class="form-control" id="description" placeholder="Entrer description"></td>
+                <td><button type="button" class="btn btn-success">Valider</button></td>
+                </tr>
+                <tr>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                </tr>
+                <tr>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                </tr>
+            </tbody>
+            </table>
+
+{% endblock %}
