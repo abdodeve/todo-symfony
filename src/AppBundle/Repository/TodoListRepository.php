@@ -3,6 +3,8 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\Query ;
+use AppBundle\Repository\TodoRepository ;
+use AppBundle\Entity\Todo ;
 
 /**
  * listRepository
@@ -43,12 +45,25 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
      */
     public function delete( $ids )
     {
-        $todos  =  $this->createQueryBuilder('todoList')
-                        ->delete()
-                        ->where('todoList.id in (:ids)')
-                        ->setParameter(':ids', $ids)
-                        ->getQuery()
-                        ->execute();
+
+        // Delete todoLists
+        $this->createQueryBuilder('todoList')
+             ->delete()
+             ->where('todoList.id in (:ids)')
+             ->setParameter(':ids', $ids)
+             ->getQuery()
+             ->execute();
+
+        // Delete todos related with todolists
+        $res = $this->getEntityManager()
+                    ->getRepository(Todo::class) 
+                    ->createQueryBuilder('todo') 
+                    ->delete()
+                    ->where('todo.fk_todolist in (:fk_todolists)')
+                    ->setParameter(':fk_todolists', [$ids])
+                    ->getQuery()
+                    ->execute();
+
         return true ;
     }
 
