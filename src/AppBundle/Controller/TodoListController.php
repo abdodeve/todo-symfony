@@ -18,7 +18,7 @@ class TodoListController extends Controller
 {
     
     /**
-     * @Route("TodoList/fetch", name="TodoListFetch")
+     * @Route("/", name="TodoListFetch")
      * @Method("GET")
      */
     public function fetchAction(Request $request)
@@ -29,6 +29,7 @@ class TodoListController extends Controller
                                ->getRepository('AppBundle:TodoList');
         $todos = $todoRepository->fetch();
 
+        return $this->render('homepage.html.twig', ['todos'=> $todos]);
         return $this->json($todos);
     }
 
