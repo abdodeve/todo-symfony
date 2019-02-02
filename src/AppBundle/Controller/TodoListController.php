@@ -23,14 +23,21 @@ class TodoListController extends Controller
      */
     public function fetchAction(Request $request)
     {
+        // Get TodoLists
         $todoArr = [] ;
         $todoRepository = $this->getDoctrine()
                                ->getManager()
                                ->getRepository('AppBundle:TodoList');
-        $todos = $todoRepository->fetch();
+        $todoLists = $todoRepository->fetch();
 
-        return $this->render('homepage.html.twig', ['todos'=> $todos]);
-        return $this->json($todos);
+        // Get Todos
+        $todos = $this->getDoctrine()
+                    ->getRepository('AppBundle:Todo')
+                    ->findAll();
+
+        return $this->render('homepage.html.twig', ['todoLists'=> $todoLists,
+                                                    'todos'=> $todos]);
+        return $this->json($todoLists);
     }
 
 

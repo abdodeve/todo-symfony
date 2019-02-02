@@ -1,3 +1,16 @@
 .btn_sup {
     margin-right: 1em ;
 }
+
+.todolist_anchor {
+    text-decoration: none ;
+    padding: .75rem 1.25rem;
+}
+
+.todolist_anchor:hover {
+    text-decoration: none;
+}
+
+.todolistsBlock .list-group-item {
+    padding: 0;
+}
