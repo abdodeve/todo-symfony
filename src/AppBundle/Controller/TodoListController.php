@@ -13,30 +13,49 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class TodoListController extends Controller
 {
     
     /**
      * @Route("/", name="TodoListFetch")
-     * @Method("GET")
      */
     public function fetchAction(Request $request)
     {
         // Get TodoLists
         $todoArr = [] ;
-        $todoRepository = $this->getDoctrine()
+        $todoListRepository = $this->getDoctrine()
                                ->getManager()
                                ->getRepository('AppBundle:TodoList');
-        $todoLists = $todoRepository->fetch();
+        $todoLists = $todoListRepository->fetch();
 
         // Get Todos
         $todos = $this->getDoctrine()
                     ->getRepository('AppBundle:Todo')
                     ->findAll();
 
+        // Uncategorized todos
+        $todoRepository = $this->getDoctrine()
+                                ->getManager()
+                                ->getRepository('AppBundle:Todo');
+        $uncategorizedTodos = $todoRepository->uncategorizedTodos();
+
+             // create a task and give it some dummy data for this example
+     
+             $form = $this->createFormBuilder()
+             ->add('task')
+             ->add('task_2')
+             ->add('save', SubmitType::class, array('label' => 'Create Post'))
+             ->getForm();
+
         return $this->render('homepage.html.twig', ['todoLists'=> $todoLists,
-                                                    'todos'=> $todos]);
+                                                    'todos'=> $todos,
+                                                    'uncategorizedTodos'=> $uncategorizedTodos,
+                                                    'form' => $form->createView()]);
         return $this->json($todoLists);
     }
 

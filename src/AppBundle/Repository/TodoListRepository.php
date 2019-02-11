@@ -23,7 +23,7 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
      */
     public function fetch()
     {
-        
+        // Get todolists
         $todos  =  $this->createQueryBuilder('todoList')
                         ->select("todoList.id, todoList.name, count(todo.fk_todolist) as nbTodo")
                         ->leftJoin(
@@ -33,7 +33,7 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
                                  )
                         ->groupBy('todoList.id, todoList.name')
                         ->getQuery()
-                        ->getResult() ;
+                        ->getResult() ;            
         return $todos ;
     }
 
