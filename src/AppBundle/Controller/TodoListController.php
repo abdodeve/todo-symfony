@@ -13,62 +13,108 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 
 class TodoListController extends Controller
 {
     
     /**
      * @Route("/", name="TodoListFetch")
+     * @Method({"GET", "POST"})
      */
     public function fetchAction(Request $request)
     {
         // Get TodoLists
         $todoArr = [] ;
-        $todoListRepository = $this->getDoctrine()
+        $todoRepository = $this->getDoctrine()
                                ->getManager()
                                ->getRepository('AppBundle:TodoList');
-        $todoLists = $todoListRepository->fetch();
+        $todoLists = $todoRepository->fetch();
 
         // Get Todos
         $todos = $this->getDoctrine()
                     ->getRepository('AppBundle:Todo')
                     ->findAll();
-
-        // Uncategorized todos
+        
+        // Get Uncategorized todos
         $todoRepository = $this->getDoctrine()
                                 ->getManager()
                                 ->getRepository('AppBundle:Todo');
-        $uncategorizedTodos = $todoRepository->uncategorizedTodos();
+        $uncategorizedTodos = $todoRepository->uncategorizedTodos();            
 
-             // create a task and give it some dummy data for this example
-     
-             $form = $this->createFormBuilder()
-             ->add('task')
-             ->add('task_2')
-             ->add('save', SubmitType::class, array('label' => 'Create Post'))
-             ->getForm();
+        /*
+        |-------------------------------------------------------------------------------------------------------------
+        |  BEGIN FORMS
+        |-------------------------------------------------------------------------------------------------------------
+        */
+
+        /*********************************
+         * BEGIN TodoList Form
+         *********************************/
+        // Create TodoList Form
+        $todoListForm = $this->createFormBuilder()
+                              ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
+                              ->getForm();
+        // Submit TodoList Form
+        $todoListForm->handleRequest($request);
+        if ($todoListForm->isSubmitted() && $todoListForm->isValid()) {
+                $getTodoList = $todoListForm->getData();
+                $res = $this->insert( $getTodoList );
+                return $this->redirectToRoute('TodoListFetch');
+        }
+        /*********************************
+         * END TodoList Form
+         *********************************/
+
+
+        /*********************************
+         * BEGIN Todo Form
+         *********************************/
+        // Create Todo Form
+        $todoForm = $this->createFormBuilder()
+                            ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
+                            ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
+                            ->getForm();
+        // Submit Todo Form
+        $todoForm->handleRequest($request);
+        if ($todoForm->isSubmitted() && $todoForm->isValid()) {
+                $getTodoList = $todoForm->getData();
+                $res = $this->insert( $getTodoList );
+                return $this->redirectToRoute('TodoListFetch');
+        }
+        /********************************
+        * END Todo Form
+        *********************************/
+
+        /*
+        |-------------------------------------------------------------------------------------------------------------
+        |  END FORMS
+        |-------------------------------------------------------------------------------------------------------------
+        */
 
         return $this->render('homepage.html.twig', ['todoLists'=> $todoLists,
-                                                    'todos'=> $todos,
-                                                    'uncategorizedTodos'=> $uncategorizedTodos,
-                                                    'form' => $form->createView()]);
+                                                        'todos'=> $todos,
+                                                        'uncategorizedTodos'=> $uncategorizedTodos,
+                                                        'todoListForm' => $todoListForm->createView()
+                                                        ]);
         return $this->json($todoLists);
     }
 
 
     /**
-     * @Route("todoList/insert", name="inserttodoList")
-     * @Method("POST")
+     * Insert new TodoList
+     * @param $todoList array
+     * @return bool
      */
-    public function insertAction(Request $request)
+    public function insert( $todoList )
     {
          // get data from request
-        $data = json_decode($request->getContent());
-        if(!$data) return $this->json(['error' => 'Data empty !']);
+       
+    //    $data = json_decode(json_decode($todoList)) ;
+        $data = json_encode($todoList) ;
+        $data = json_decode($data);
+       // print_r($data->name); die();
+
+        if(!$data) return false ;
 
         // get EntityManager
         $entityManager = $this->getDoctrine()->getManager();
@@ -83,9 +129,7 @@ class TodoListController extends Controller
         $entityManager->persist($todoList);
         $entityManager->flush();
 
-        return $this->json([ 'success' => true,
-                             'inserted_todo' => $todoList->getId()
-                           ]);
+        return true ;
     }
 
     /**
