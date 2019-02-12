@@ -24,8 +24,8 @@ class TodoRepository extends \Doctrine\ORM\EntityRepository
                             ->select("count(todo.id) as nbUncategorized")
                             ->where('todo.fk_todolist IS NULL')
                             ->getQuery()
-                            ->getResult() ;
-        return $uncategorized ;                    
+                            ->getResult()[0];
+        return (object) $uncategorized ;                    
     }
 
 }

@@ -14,3 +14,39 @@
 .todolistsBlock .list-group-item {
     padding: 0;
 }
+
+tr.noTopBorder td {
+    border-top: none;
+    padding-top: 0;
+}
+
+.icon_delete_todoList, .icon_edit_todoList {
+    font-size: x-small;
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    color: #bd2130;
+}
+
+.btn_delete_todoList {
+    height: 19px;
+    width: 9px !important;
+    position: relative;
+    background: transparent;
+    margin-left: 16px;
+}
+.btn_delete_todoList:hover > .icon_delete_todoList, .btn_edit_todoList:hover > .icon_edit_todoList { 
+    color: #ffff ;
+}
+
+.btn_edit_todoList {
+    height: 19px;
+    width: 9px !important;
+    position: relative;
+    background: transparent;
+    margin-left: 0;
+}
+
+.li-warning {
+    background-color: #ffeeba;
+}

@@ -39,7 +39,7 @@ class TodoListController extends Controller
         $todoRepository = $this->getDoctrine()
                                 ->getManager()
                                 ->getRepository('AppBundle:Todo');
-        $uncategorizedTodos = $todoRepository->uncategorizedTodos();            
+        $uncategorizedTodos = $todoRepository->uncategorizedTodos();        
 
         /*
         |-------------------------------------------------------------------------------------------------------------
