@@ -27,17 +27,25 @@
 </form>
 
 <ul class="list-group mb-3">
+            <li class="list-group-item">
+                <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="#uncategorizedTodos">            
+                  <div>
+                    <h6 class="my-0">Todos non classé</h6>
+                  </div>
+                  <span class="badge badge-secondary badge-pill">{{ uncategorizedTodos[0].nbUncategorized }}</span>
+                </a>
+            </li>
       {% for todoList in todoLists %}
             <li class="list-group-item">
                 <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="#{{ todoList.id }}">            
                   <div>
                     <h6 class="my-0">{{ todoList.name }}</h6>
                   </div>
-                  <span class="text-muted">{{ todoList.nbTodo }}</span>
+                  <span class="badge badge-secondary badge-pill">{{ todoList.nbTodo }}</span>
                 </a>
             </li>
       {% endfor %}
-</ul>
+          </ul>
 </div>
 <div class="col-md-9">
 <table class="table" width="100%">
