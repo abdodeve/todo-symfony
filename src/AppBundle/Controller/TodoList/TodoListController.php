@@ -25,6 +25,10 @@ class TodoListController extends Controller
     public function fetchAction(Request $request)
     {
         // Get
+        TodoListService::$entityManager = $this->getDoctrine()->getManager();
+        TodoListService::$createFormBuilder = $this->createFormBuilder() ;
+
+      //  TodoListService::setEntityManager( $entityManager );
         $todoLists = TodoListService::getTodoLists();
         $todos = TodoListService::getTodos();
         $uncategorizedTodos = TodoListService::getUncategorizedTodos();

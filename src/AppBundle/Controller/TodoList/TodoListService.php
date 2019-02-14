@@ -16,6 +16,17 @@ use AppBundle\Repository\TodoRepository ;
 
 class TodoListService
 {
+    public static $entityManager; 
+    public static $createFormBuilder;        
+
+    /**
+     * Set Entity Manager
+     * 
+     */
+    public static function setEntityManager($entityManager){
+        self::$entityManager = $entityManager;
+    }
+
     /**
      * Get TodoLists
      * @return todoLists array
@@ -23,8 +34,7 @@ class TodoListService
     public static function getTodoLists()
     {
         $todoArr = [] ;
-        $todoRepository = $this->getDoctrine()
-                               ->getManager()
+        $todoRepository = self::$entityManager
                                ->getRepository('AppBundle:TodoList');
         return $todoRepository->fetch();
     }
@@ -37,7 +47,7 @@ class TodoListService
     public static function getTodos()
     {
         // Get Todos
-        $todos = $this->getDoctrine()
+        $todos = self::$entityManager
                         ->getRepository('AppBundle:Todo')
                         ->findAll();
         return $todos ;
@@ -50,8 +60,7 @@ class TodoListService
     public static function getUncategorizedTodos()
     {
         // Get Uncategorized todos
-        $todoRepository = $this->getDoctrine()
-                                ->getManager()
+        $todoRepository = self::$entityManager
                                 ->getRepository('AppBundle:Todo');
         return $todoRepository->uncategorizedTodos();   
     }
@@ -64,18 +73,18 @@ class TodoListService
     public static function formTodoList()
     {
         // Create TodoList Form
-        $todoListForm = $this->createFormBuilder()
+        $todoListForm = self::$createFormBuilder
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->getForm();
 
         // Submit TodoList Form
-        $todoListForm->handleRequest($request);
+        // $todoListForm->handleRequest($request);
 
-        if ($todoListForm->isSubmitted() && $todoListForm->isValid()) {
-            $getTodoList = $todoListForm->getData();
-            $res = $this->insert( $getTodoList );
-            return $this->redirectToRoute('TodoListFetch');
-        }
+        // if ($todoListForm->isSubmitted() && $todoListForm->isValid()) {
+        //     $getTodoList = $todoListForm->getData();
+        //     $res = $this->insert( $getTodoList );
+        //     return $this->redirectToRoute('TodoListFetch');
+        // }
 
         return $todoListForm ;
     }
@@ -88,17 +97,17 @@ class TodoListService
     public static function formTodo()
     {
         // Create Todo Form
-        $todoForm = $this->createFormBuilder()
+        $todoForm = self::$createFormBuilder
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->getForm();
         // Submit Todo Form
-        $todoForm->handleRequest($request);
-        if ($todoForm->isSubmitted() && $todoForm->isValid()) {
-                $getTodoList = $todoForm->getData();
-                $res = $this->insert( $getTodoList );
-                return $this->redirectToRoute('TodoListFetch');
-        }
+       // $todoForm->handleRequest($request);
+        // if ($todoForm->isSubmitted() && $todoForm->isValid()) {
+        //         $getTodoList = $todoForm->getData();
+        //         $res = $this->insert( $getTodoList );
+        //         return $this->redirectToRoute('TodoListFetch');
+        // }
 
         return $todoForm ;
     }
