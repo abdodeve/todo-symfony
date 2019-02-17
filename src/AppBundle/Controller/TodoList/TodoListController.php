@@ -13,7 +13,7 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
-use AppBundle\Controller\TodoList\TodoListService ;
+// use AppBundle\Controller\TodoList\TodoListService ;
 
 class TodoListController extends Controller
 {
@@ -24,6 +24,10 @@ class TodoListController extends Controller
      */
     public function fetchAction(Request $request)
     {
+        $tdlSer = $this->get('app.todolistservice');
+        var_dump($tdlSer->myservice);
+        die();
+
         // Get
         TodoListService::$entityManager = $this->getDoctrine()->getManager();
         TodoListService::$createFormBuilder = $this->createFormBuilder() ;

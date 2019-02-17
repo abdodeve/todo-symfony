@@ -13,11 +13,36 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
+use AppBundle\Controller\TodoList\MyService ;
 
 class TodoListService
 {
-    public static $entityManager; 
-    public static $createFormBuilder;        
+    public static $entityManager = "test_val"; 
+    public static $createFormBuilder;   
+    private $nom = "adevName" ;     
+
+
+    public $transport ;
+    public $myservice ;
+
+    public function __construct($transport = "default_data")
+    {
+        $this->transport = $transport;
+    }
+
+    public function setMyservice( $myservice ){
+       $this->myservice = $myservice ;
+       return $this ;
+    }
+    
+    /**
+     * Set Entity Manager
+     * 
+     */
+    public static function testFunc(){
+        return "adev" ;
+    }
+
 
     /**
      * Set Entity Manager
