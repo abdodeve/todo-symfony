@@ -9,13 +9,11 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
-    app.myservice:
-        class:        AppBundle\Controller\TodoList\MyService
-
     app.todolistservice:
         class:        AppBundle\Controller\TodoList\TodoListService
-        calls:
-            - [setMyservice, ["@app.myservice"]]
+        arguments: [ '@doctrine.orm.entity_manager', '@form.factory' ]
+        # calls:
+        #     - [setMyservice, ["@app.myservice"]]
         # arguments: ['%app.todolistservice.transport%']
         # arguments: ['@app.myservice']
 #        arguments:    [sendmail]

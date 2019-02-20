@@ -13,53 +13,34 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
-use AppBundle\Controller\TodoList\MyService ;
 
 class TodoListService
 {
-    public static $entityManager = "test_val"; 
-    public static $createFormBuilder;   
-    private $nom = "adevName" ;     
+    public static $createFormBuilder;
 
+    public $testVar = "123" ;
+    public $entityManager ;
+    public $formFactory ;
 
-    public $transport ;
-    public $myservice ;
-
-    public function __construct($transport = "default_data")
-    {
-        $this->transport = $transport;
+    public function __construct( \Doctrine\ORM\EntityManager $entityManager, $formFactory ){
+        $this->entityManager = $entityManager;
+        $this->formFactory = $formFactory ;
     }
 
-    public function setMyservice( $myservice ){
-       $this->myservice = $myservice ;
-       return $this ;
-    }
-    
-    /**
-     * Set Entity Manager
-     * 
-     */
-    public static function testFunc(){
-        return "adev" ;
-    }
+    // public function setMyservice( $myservice ){
+    //    $this->myservice = $myservice ;
+    //    return $this ;
+    // }
 
-
-    /**
-     * Set Entity Manager
-     * 
-     */
-    public static function setEntityManager($entityManager){
-        self::$entityManager = $entityManager;
-    }
 
     /**
      * Get TodoLists
      * @return todoLists array
      */
-    public static function getTodoLists()
+    public function getTodoLists()
     {
         $todoArr = [] ;
-        $todoRepository = self::$entityManager
+        $todoRepository = $this->entityManager
                                ->getRepository('AppBundle:TodoList');
         return $todoRepository->fetch();
     }
@@ -69,10 +50,10 @@ class TodoListService
      * Get Todos
      * @return todos array
      */
-    public static function getTodos()
+    public function getTodos()
     {
         // Get Todos
-        $todos = self::$entityManager
+        $todos = $this->entityManager
                         ->getRepository('AppBundle:Todo')
                         ->findAll();
         return $todos ;
@@ -82,10 +63,10 @@ class TodoListService
      * Get UncategorizedTodos
      * @return uncategorizedTodos array
      */
-    public static function getUncategorizedTodos()
+    public function getUncategorizedTodos()
     {
         // Get Uncategorized todos
-        $todoRepository = self::$entityManager
+        $todoRepository = $this->entityManager
                                 ->getRepository('AppBundle:Todo');
         return $todoRepository->uncategorizedTodos();   
     }
@@ -95,10 +76,11 @@ class TodoListService
      * Create & Submit TodoList form
      * @return mixed
      */
-    public static function formTodoList()
+    public function formTodoList()
     {
         // Create TodoList Form
-        $todoListForm = self::$createFormBuilder
+        $todoListForm = $this->formFactory
+                            ->createBuilder()
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->getForm();
 
@@ -119,10 +101,11 @@ class TodoListService
      * Create & Submit Todo form
      * @return mixed
      */
-    public static function formTodo()
+    public function formTodo()
     {
         // Create Todo Form
-        $todoForm = self::$createFormBuilder
+        $todoForm = $this->formFactory
+                            ->createBuilder()
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->getForm();

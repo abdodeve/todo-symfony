@@ -13,7 +13,6 @@ use Doctrine\ORM\Query ;
 use AppBundle\Entity\Todo ;
 use AppBundle\Entity\TodoList ;
 use AppBundle\Repository\TodoRepository ;
-// use AppBundle\Controller\TodoList\TodoListService ;
 
 class TodoListController extends Controller
 {
@@ -24,22 +23,20 @@ class TodoListController extends Controller
      */
     public function fetchAction(Request $request)
     {
-        $tdlSer = $this->get('app.todolistservice');
-        var_dump($tdlSer->myservice);
-        die();
+        $todolistService = $this->get('app.todolistservice');
+        // var_dump( $todolistService->formTodoList() );
+        // die(1); 
 
         // Get
-        TodoListService::$entityManager = $this->getDoctrine()->getManager();
-        TodoListService::$createFormBuilder = $this->createFormBuilder() ;
+       // $todolistService->createFormBuilder = $this->createFormBuilder() ;
 
-      //  TodoListService::setEntityManager( $entityManager );
-        $todoLists = TodoListService::getTodoLists();
-        $todos = TodoListService::getTodos();
-        $uncategorizedTodos = TodoListService::getUncategorizedTodos();
+        $todoLists = $todolistService->getTodoLists();
+        $todos = $todolistService->getTodos();
+        $uncategorizedTodos = $todolistService->getUncategorizedTodos();
 
         // Forms
-        $todoListForm = TodoListService::formTodoList();
-        $todoForm = TodoListService::formTodo();
+        $todoListForm = $todolistService->formTodoList();
+        $todoForm = $todolistService->formTodo();
 
         return $this->render('homepage.html.twig', [    'todoLists'=> $todoLists,
                                                         'todos'=> $todos,
