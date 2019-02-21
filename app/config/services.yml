@@ -11,7 +11,7 @@ services:
 
     app.todolistservice:
         class:        AppBundle\Controller\TodoList\TodoListService
-        arguments: [ '@doctrine.orm.entity_manager', '@form.factory' ]
+        arguments: [ '@doctrine.orm.entity_manager', '@form.factory', '@request_stack', '@router' ]
         # calls:
         #     - [setMyservice, ["@app.myservice"]]
         # arguments: ['%app.todolistservice.transport%']
