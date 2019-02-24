@@ -18,7 +18,9 @@
   {{ form_widget(todoListForm.name) }}
   <div class="input-group-append">
     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-check-circle"></i></button>
-    <button class="btn btn-outline-warning" type="button"><i class="fas fa-plus-circle"></i></button>
+    {% if currentID is defined %}
+    <a href="/" class="btn btn-outline-warning"><i class="fas fa-plus-circle"></i></a>
+    {% endif %}
   </div>
 </div>
 {{ form_end(todoListForm) }}
@@ -26,7 +28,7 @@
 
 <ul class="list-group mb-3">
             <li class="list-group-item">
-                <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="#uncategorizedTodos">            
+                <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="/">            
                   <div>
                     <h6 class="my-0">Todos non classé</h6>
                   </div>
@@ -41,13 +43,12 @@
       {% set i = -1 %}
       {% for todoList in todoLists %}
       {% set i = i + 1 %}
-      {% if i == 1 %}
-                  <li class="list-group-item li-warning">
-      {% else %}
-          <li class="list-group-item">
+      {% set active = "" %}
+      {% if currentID is defined and todoList.id == currentID %}
+          {% set active = "li-warning" %}
       {% endif %}
-
-                <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="#{{ todoList.id }}">            
+            <li class="list-group-item {{active}}">
+                <a class="todolist_anchor d-flex justify-content-between lh-condensed" href="/todolist/single/{{ todoList.id }}">            
                   <div>
                     <h6 class="my-0">{{ todoList.name|slice(0, 22) }}</h6>
                   </div>

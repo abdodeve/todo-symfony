@@ -23,23 +23,51 @@ class TodoListController extends Controller
      */
     public function fetchAction(Request $request)
     {
+        // Instance todoListService
         $todolistService = $this->get('app.todolistservice');
 
-        // Retrieving data
-        $todoLists          = $todolistService->getTodoLists();
-        $todos              = $todolistService->getTodos();
-        $uncategorizedTodos = $todolistService->getUncategorizedTodos();
+        // Call service methodes
+       $getSharedData = $todolistService->getSharedData();
+       $formTodoList  = $todolistService->formTodoList() ;
 
         // Forms
-        $todoListForm   = $todolistService->formTodoList();
-        if( array_key_exists("redirect", $todoListForm) ) return $todoListForm["redirect"] ;
-        $todoForm       = $todolistService->formTodo();
+        if( $formTodoList->submited ) 
+            return $formTodoList->uri ;
 
-        return $this->render('homepage.html.twig', [    'todoLists'=> $todoLists,
-                                                        'todos'=> $todos,
-                                                        'uncategorizedTodos'=> $uncategorizedTodos,
-                                                        'todoListForm' => $todoListForm["form"]->createView()
-                                                    ]);
+        return $this->render('homepage.html.twig', [     'todoLists'            => $getSharedData->todoLists,
+                                                         'todos'                => $getSharedData->todos,
+                                                         'uncategorizedTodos'   => $getSharedData->uncategorizedTodos,
+                                                         'todoListForm'         => $formTodoList->form->createView()
+                                                    ]
+                            );
+    }
+
+
+    /**
+     * @Route("todolist/single/{id}", name="TodoListSingle")
+     * @Method({"GET", "POST"})
+     */
+    public function todoListSingleAction(Request $request, $id)
+    {
+        // Instance todoListService
+        $todolistService = $this->get('app.todolistservice');
+
+        // Call service methodes
+       $getSharedData       = $todolistService->getSharedData() ;
+       $singleTodoListArr   = $todolistService->single( $id ) ;
+       $formTodoList        = $todolistService->formTodoList( $singleTodoListArr ) ;
+
+        // Forms
+        if( $formTodoList->submited ) 
+            return $formTodoList->uri ;
+
+        return $this->render('homepage.html.twig', [     'todoLists'            => $getSharedData->todoLists,
+                                                         'todos'                => $getSharedData->todos,
+                                                         'uncategorizedTodos'   => $getSharedData->uncategorizedTodos,
+                                                         'todoListForm'         => $formTodoList->form->createView(),
+                                                         "currentID"=> $id
+                                                    ]
+                            );
     }
 
     /**

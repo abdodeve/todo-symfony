@@ -50,3 +50,7 @@ tr.noTopBorder td {
 .li-warning {
     background-color: #ffeeba;
 }
+
+.li-active {
+    background-color: #ffeeba;
+}
