@@ -53,7 +53,6 @@ class TodoListController extends Controller
         $todolistService = $this->get('app.todolistservice');
 
         // Call service methodes
-       $getSharedData       = $todolistService->getSharedData() ;
        $singleTodoListArr   = $todolistService->single( $id ) ;
        $formTodoList        = $todolistService->formTodoList( $singleTodoListArr ) ;
 
@@ -61,9 +60,9 @@ class TodoListController extends Controller
         if( $formTodoList->submited ) 
             return $formTodoList->uri ;
 
-        return $this->render('homepage.html.twig', [     'todoLists'            => $getSharedData->todoLists,
-                                                         'todos'                => $getSharedData->todos,
-                                                         'uncategorizedTodos'   => $getSharedData->uncategorizedTodos,
+        return $this->render('homepage.html.twig', [     'todoLists'            => $todolistService->getTodoLists(),
+                                                         'todos'                => $todolistService->getTodos( $id ),
+                                                         'uncategorizedTodos'   => $todolistService->getUncategorizedTodos(),
                                                          'todoListForm'         => $formTodoList->form->createView(),
                                                          "currentID"=> $id
                                                     ]
@@ -78,11 +77,8 @@ class TodoListController extends Controller
     public function insert( $todoList )
     {
          // get data from request
-       
-    //    $data = json_decode(json_decode($todoList)) ;
         $data = json_encode($todoList) ;
         $data = json_decode($data);
-       // print_r($data->name); die();
 
         if(!$data) return false ;
 

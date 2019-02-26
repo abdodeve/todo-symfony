@@ -24,7 +24,6 @@ class TodoListService
 {
     public static $createFormBuilder;
 
-    public $testVar = "123" ;
     public $entityManager ;
     public $formFactory ;
     protected $requestStack;
@@ -39,12 +38,6 @@ class TodoListService
         $this->requestStack     = $requestStack;
         $this->router           = $router;
     }
-
-    // public function setMyservice( $myservice ){
-    //    $this->myservice = $myservice ;
-    //    return $this ;
-    // }
-
 
     /**
      * Get TodoLists
@@ -63,12 +56,12 @@ class TodoListService
      * Get Todos
      * @return todos array
      */
-    public function getTodos()
+    public function getTodos( $todolist_id = null )
     {
         // Get Todos
         $todos = $this->entityManager
                         ->getRepository('AppBundle:Todo')
-                        ->findAll();
+                        ->findBy(['fk_todolist' => $todolist_id]);
         return $todos ;
     }
 
@@ -192,17 +185,11 @@ class TodoListService
      */
     public function insert( $todoList )
     {
-         // get data from request
-       
-    //    $data = json_decode(json_decode($todoList)) ;
+        // get data from request
         $data = json_encode($todoList) ;
         $data = json_decode($data);
-       // print_r($data->name); die();
 
         if(!$data) return false ;
-
-        // get EntityManager
-       // $entityManager = $this->getDoctrine()->getManager();
 
         // Add new record
         $todoList = new TodoList();
