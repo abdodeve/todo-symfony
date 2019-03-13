@@ -45,7 +45,6 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
      */
     public function delete( $ids )
     {
-
         // Delete todoLists
         $isTodoListDeleted = $this->createQueryBuilder('todoList')
                                     ->delete()
@@ -55,15 +54,16 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
                                     ->execute();
 
         // Delete todos related with todolists
-        // $isTodosDeleted = $this->getEntityManager()
-        //             ->getRepository(Todo::class) 
-        //             ->createQueryBuilder('todo') 
-        //             ->delete()
-        //             ->where('todo.fk_todolist in (:fk_todolists)')
-        //             ->setParameter(':fk_todolists', [$ids])
-        //             ->getQuery()
-        //             ->execute();
-        return $isTodoListDeleted == 1 ? true : false ;
+        $isTodosDeleted = $this->getEntityManager()
+                    ->getRepository(Todo::class) 
+                    ->createQueryBuilder('todo') 
+                    ->delete()
+                    ->where('todo.fk_todolist in (:fk_todolists)')
+                    ->setParameter(':fk_todolists', [$ids])
+                    ->getQuery()
+                    ->execute();
+
+       return $isTodoListDeleted == 1 ? true : false ;
     }
 
 

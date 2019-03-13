@@ -165,16 +165,16 @@ class TodoListController extends Controller
     public function deleteAction(Request $request)
     {
         // get data from request
-        $data = json_decode($request->getContent());
-        return $this->json($data);
+        $data = $request->request->get('data');
 
-        // $todoArr = [] ;
-        // $todoListRepository = $this->getDoctrine()
-        //                        ->getManager()
-        //                        ->getRepository('AppBundle:TodoList');
-        // $todos = $todoListRepository->delete( $data->ids );
 
-        // return $this->json($todos);
+        $todoArr = [] ;
+        $todoListRepository = $this->getDoctrine()
+                               ->getManager()
+                               ->getRepository('AppBundle:TodoList');
+        $isDeleted = $todoListRepository->delete( $data["ids"] );
+
+        return $this->json(["success"=> true, "isDeleted"=> $isDeleted]);
     }
 
 
