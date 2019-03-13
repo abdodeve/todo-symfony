@@ -158,14 +158,6 @@ class TodoListController extends Controller
                           ]);
     }
 
-
-
-
-
-
-
-
-
     /**
      * @Route("TodoList/delete", name="TodoListDelete")
      * @Method("POST")
@@ -174,14 +166,15 @@ class TodoListController extends Controller
     {
         // get data from request
         $data = json_decode($request->getContent());
+        return $this->json($data);
 
-        $todoArr = [] ;
-        $todoListRepository = $this->getDoctrine()
-                               ->getManager()
-                               ->getRepository('AppBundle:TodoList');
-        $todos = $todoListRepository->delete( $data->ids );
+        // $todoArr = [] ;
+        // $todoListRepository = $this->getDoctrine()
+        //                        ->getManager()
+        //                        ->getRepository('AppBundle:TodoList');
+        // $todos = $todoListRepository->delete( $data->ids );
 
-        return $this->json($todos);
+        // return $this->json($todos);
     }
 
 

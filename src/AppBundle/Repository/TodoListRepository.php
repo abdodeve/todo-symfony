@@ -47,24 +47,23 @@ class TodoListRepository extends \Doctrine\ORM\EntityRepository
     {
 
         // Delete todoLists
-        $this->createQueryBuilder('todoList')
-             ->delete()
-             ->where('todoList.id in (:ids)')
-             ->setParameter(':ids', $ids)
-             ->getQuery()
-             ->execute();
+        $isTodoListDeleted = $this->createQueryBuilder('todoList')
+                                    ->delete()
+                                    ->where('todoList.id in (:ids)')
+                                    ->setParameter(':ids', $ids)
+                                    ->getQuery()
+                                    ->execute();
 
         // Delete todos related with todolists
-        $res = $this->getEntityManager()
-                    ->getRepository(Todo::class) 
-                    ->createQueryBuilder('todo') 
-                    ->delete()
-                    ->where('todo.fk_todolist in (:fk_todolists)')
-                    ->setParameter(':fk_todolists', [$ids])
-                    ->getQuery()
-                    ->execute();
-
-        return true ;
+        // $isTodosDeleted = $this->getEntityManager()
+        //             ->getRepository(Todo::class) 
+        //             ->createQueryBuilder('todo') 
+        //             ->delete()
+        //             ->where('todo.fk_todolist in (:fk_todolists)')
+        //             ->setParameter(':fk_todolists', [$ids])
+        //             ->getQuery()
+        //             ->execute();
+        return $isTodoListDeleted == 1 ? true : false ;
     }
 
 
