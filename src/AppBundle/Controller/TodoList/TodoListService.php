@@ -84,6 +84,7 @@ class TodoListService
      */
     public function formTodoList( $data = null )
     {
+
         $request = $this->requestStack->getCurrentRequest();
 
         // Create TodoList Form
@@ -92,8 +93,12 @@ class TodoListService
                             ->add('name', null, ['attr' => ['class' => 'form-control', 'placeholder'=> 'Entrer list']])
                             ->getForm();
 
+                            // var_dump($data);
+                            // die("abc");
+
         // Submit TodoList Form
-        $todoListForm->handleRequest($request);
+        $todoListForm->handleRequest($request) ;
+
 
         if ($todoListForm->isSubmitted() && $todoListForm->isValid()) {
             $getTodoList = $todoListForm->getData();
@@ -105,7 +110,6 @@ class TodoListService
 
             return (object)["submited"=>true, "uri"=> new RedirectResponse($this->router->generate('TodoListFetch'))];
         }
-
         return (object)["submited"=> false, "form"=> $todoListForm] ;
     }
 
